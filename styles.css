@@ -1,0 +1,25 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+ul {
+    display: flex;
+    flex-wrap: wrap;
+    
+}
+
+li {
+    border: solid 1px black;
+    width: calc(100% / 3 - 2rem);
+    margin: 1rem;
+}
+
+@media (max-width: 600px){
+    li{
+        width: 100%;
+    }
+}
