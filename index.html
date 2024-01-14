@@ -32,7 +32,19 @@ function Title({players}){
       <h1> Puppy Bowl {players.length}</h1>
     );
 }
+function Player({player}){
+    return (
+      <h4> 
+        <a href='#'> Back </a>
+        {player.name}   {player.breed}, {player.status}
+        <img src={player.imageUrl} /> 
+      </h4> 
+      
+      
+      
+  );
 
+}
 function Players({players}){
   return (
     <ul>
@@ -40,17 +52,24 @@ function Players({players}){
        players.map(function(player){
         return (
           <li key={player.id}> 
-            {player.name}
-          </li>
+           <a href={`#${player.id}`}> {player.name} </a>
+          </li> 
+          
         )
+        
        }) 
       }
+      
     </ul>
   );
 }
 
+
+
 function App () {
     const [players, setPlayers] = React.useState([]);
+    const [id, setId] = React.useState(window.location.hash.slice(1));
+    console.log(id);
     React.useEffect(function(){
       async function fetchData(){
         const response = await fetch('https://fsa-puppy-bowl.herokuapp.com/api/2309-ftb-et-am/players');
@@ -58,35 +77,31 @@ function App () {
         setPlayers(json.data.players);
       } 
      fetchData();
+     window.addEventListener('hashchange', function(){
+       setId(window.location.hash.slice(1));
+     })
      }, []);
+
+    const player = players.find(function(player){
+      return player.id === id*1;
+    });
+    console.log(player);
+    
     return (
         <div>
             <Title players={players} />
-            <Players players={players}/>
-        
+            {
+              player ? (
+                <Player player = { player }/>
+              ) : (
+                <Players players = { players }/>
+              )
+            }
+            
+            
         </div>
     );
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
